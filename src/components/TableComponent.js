@@ -8,6 +8,12 @@ const columns = [
         key: 'id',
     },
     {
+        title: 'Name',
+        dataIndex: 'owner',
+        key: 'name',
+        render:(_,record)=> record.owner.login
+    },
+    {
         title: 'Files',
         dataIndex: 'files',
         key: 'files',
