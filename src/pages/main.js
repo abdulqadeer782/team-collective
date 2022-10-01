@@ -1,6 +1,5 @@
 import React from 'react'
-import {Layout,Avatar,Input} from 'antd'
-import HeaderComponent from '../components/HeaderComponent'
+import {Layout} from 'antd'
 import styled from 'styled-components'
 import SearchComponent from '../components/SearchContainer';
 import TableComponent from '../components/TableComponent';
@@ -13,7 +12,7 @@ const HeaderContainer = styled.div`
     background : #fff;
     padding : 0 24px;
     display : flex;
-    justify-content : space-between;
+    justify-content : center;
     align-items : center;
 `;
 
@@ -24,7 +23,6 @@ function Main(props) {
     >
         <HeaderContainer>
             <SearchComponent/>
-            <Avatar size={50}>fds</Avatar>
         </HeaderContainer>
         <Content style={{padding:'24px'}}>
             <TableComponent/>

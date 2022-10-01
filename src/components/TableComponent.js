@@ -1,70 +1,60 @@
-import { Space, Table, Tag } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Table, Tag,Avatar } from 'antd';
+import { apiConfig } from '../shared/apiConfig';
+
 const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+    },
+    {
+        title: 'Files',
+        dataIndex: 'files',
+        key: 'files',
+        render:(_,record) =>{
+            const fileName = Object.keys(record.files)[0]
+            const fileType = fileName.split('.')[1] 
+            if(fileType === 'js' || fileType === 'py'){
+                return(
+                    <Tag color={fileType === 'js' ? 'orange' :'geekblue'}>{fileName}</Tag>
+                )
+            }
 
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-];
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+            return fileName
+        }
+    },
+    {
+        title: 'Avatar',
+        dataIndex: 'avatar',
+        key: 'avatar',
+        render : (_,record)=>
+            <Avatar
+                src={record.owner.avatar_url && record.owner.avatar_url}
+            />
+        
+    },
+];  
 
 function TableComponent() {
-  return <Table columns={columns} dataSource={data} pagination={false}/>
+    const [data,setData] = useState([])
+
+    useEffect(() => {
+        apiConfig.get('/gists').then((res) => {
+            if(res.data){
+                setData(res.data)
+            }
+        })
+    }, [])
+
+
+    return (
+        <>
+            <Table
+                columns={columns}
+                dataSource={data}
+            />
+        </>
+    )
 }
 export default TableComponent
