@@ -29,9 +29,11 @@ const columns = [
         dataIndex: 'avatar',
         key: 'avatar',
         render : (_,record)=>
+        <a href={record.owner.avatar_url}>
             <Avatar
                 src={record.owner.avatar_url && record.owner.avatar_url}
             />
+        </a>
         
     },
 ];  
@@ -53,6 +55,7 @@ function TableComponent() {
             <Table
                 columns={columns}
                 dataSource={data}
+                scroll={{x:1100}}
             />
         </>
     )

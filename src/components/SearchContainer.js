@@ -1,6 +1,7 @@
 import { AutoComplete } from 'antd';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { apiConfig } from '../shared/apiConfig';
 const { Option } = AutoComplete;
 
 const Container = styled.div`
@@ -12,15 +13,9 @@ const SearchComponent = () => {
     const [result, setResult] = useState([]);
 
     const handleSearch = (value) => {
-        let res = [];
-
-        if (!value || value.indexOf('@') >= 0) {
-            res = [];
-        } else {
-            res = ['gmail.com', '163.com', 'qq.com'].map((domain) => `${value}@${domain}`);
-        }
-
-        setResult(res);
+        apiConfig.get(`/gists?${value}`).then((res)=>{
+            setResult(res.data)
+        })
     };
 
     return (
