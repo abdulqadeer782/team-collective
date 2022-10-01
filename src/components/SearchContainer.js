@@ -1,41 +1,26 @@
-import { AutoComplete } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
+import { Input } from 'antd';
 import styled from 'styled-components';
-import { apiConfig } from '../shared/apiConfig';
-const { Option } = AutoComplete;
 
 const Container = styled.div`
-    width : 50%;
+    width : 80%;
     margin : 0 auto;
+    
+    @media (max-width:867px){
+        width:100%;
+    }
 `;
 
-const SearchComponent = () => {
-    const [result, setResult] = useState([]);
-
-    const handleSearch = (value) => {
-        apiConfig.get(`/gists?${value}`).then((res)=>{
-            setResult(res.data)
-        })
-    };
+const SearchComponent = ({handleSearch,result}) => {
 
     return (
         <Container>
-            <AutoComplete
+            <Input 
                 size='large'
-                allowClear
-                style={{
-                    borderRadius:'140px',
-                    width:'100%'
-                }}
-                onSearch={handleSearch}
-                placeholder="Input User Name"
-            >
-                {result.map((email) => (
-                    <Option key={email} value={email}>
-                        {email}
-                    </Option>
-                ))}
-            </AutoComplete>
+                placeholder='Please enter username.'
+                onChange={(e)=>handleSearch(e.target.value)}
+                style={{borderRadius:'10px',height:'50px'}}
+            />
         </Container>
     );
 };

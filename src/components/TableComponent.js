@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Table, Tag,Avatar } from 'antd';
-import { apiConfig } from '../shared/apiConfig';
 
 const columns = [
     {
@@ -31,6 +30,7 @@ const columns = [
         render : (_,record)=>
         <a href={record.owner.avatar_url}>
             <Avatar
+                size={'large'}
                 src={record.owner.avatar_url && record.owner.avatar_url}
             />
         </a>
@@ -38,24 +38,14 @@ const columns = [
     },
 ];  
 
-function TableComponent() {
-    const [data,setData] = useState([])
-
-    useEffect(() => {
-        apiConfig.get('/gists').then((res) => {
-            if(res.data){
-                setData(res.data)
-            }
-        })
-    }, [])
-
-
+function TableComponent({data}) {
     return (
         <>
             <Table
                 columns={columns}
                 dataSource={data}
                 scroll={{x:1100}}
+                rowKey="f"
             />
         </>
     )
