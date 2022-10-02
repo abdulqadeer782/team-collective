@@ -3,17 +3,6 @@ import { Table, Tag,Avatar } from 'antd';
 
 const columns = [
     {
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id',
-    },
-    {
-        title: 'Name',
-        dataIndex: 'owner',
-        key: 'name',
-        render:(_,record)=> record.owner.login
-    },
-    {
         title: 'Files',
         dataIndex: 'files',
         key: 'files',
@@ -30,16 +19,19 @@ const columns = [
         }
     },
     {
-        title: 'Avatar',
+        title: 'Fork',
         dataIndex: 'avatar',
         key: 'avatar',
-        render : (_,record)=>
-        <a href={record.owner.avatar_url}>
-            <Avatar
-                size={'large'}
-                src={record.owner.avatar_url && record.owner.avatar_url}
-            />
-        </a>
+        render : (_,record,index)=>(
+            <>
+                {index < 3 && <a href={record.forks_url}>
+                    <Avatar
+                        size={'large'}
+                        src={record.owner.avatar_url && record.owner.avatar_url}
+                    />
+                </a>}
+            </>
+        )
         
     },
 ];  
